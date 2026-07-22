@@ -1,0 +1,48 @@
+# Dependencies
+node_modules/
+
+# Environment files and credentials
+.env
+.env.*
+!.env.example
+!.env.*.example
+serviceAccountKey*.json
+*.pem
+*.key
+*.pfx
+*.p12
+
+# Logs and process files
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+*.pid
+*.pid.lock
+
+# Build output, test output, and tooling caches
+dist/
+build/
+coverage/
+.cache/
+.eslintcache
+*.tsbuildinfo
+
+# Local runtime data
+*.sqlite
+*.sqlite3
+*.db
+
+# Editor and operating-system files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+*.suo
+*.swp
+*.swo

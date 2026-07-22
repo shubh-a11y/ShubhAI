@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "ioredis": "^5.11.1"
+  },
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

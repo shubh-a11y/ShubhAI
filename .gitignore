@@ -1,0 +1,55 @@
+# Dependencies
+node_modules/
+
+# Environment files and secrets
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.pem
+*.key
+*.pfx
+*.p12
+serviceAccountKey*.json
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Build output and caches
+dist/
+build/
+coverage/
+.cache/
+.parcel-cache/
+.vite/
+.turbo/
+.eslintcache
+*.tsbuildinfo
+
+# Runtime data
+*.pid
+*.pid.lock
+*.seed
+*.sqlite
+*.sqlite3
+*.db
+
+# Editor and operating-system files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+*.swo
