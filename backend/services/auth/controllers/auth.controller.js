@@ -30,7 +30,8 @@ export  const login = async (req,res) =>
             avatar:user.avatar
         }),"EX",60*60*24*7) // 7 days
 
-        res.cookie("session",sessionId,{
+        res.cookie("session",sessionId,
+        {
             httpOnly:true, // only accessible by server
             secure:false, //only send cookie over https
             sameSite:"strict", // for cross-site requests
