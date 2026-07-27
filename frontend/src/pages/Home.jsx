@@ -4,6 +4,9 @@ import { auth, googleProvider } from '../../utils/firebase';
 import { FcGoogle } from "react-icons/fc";
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserdata } from '../redux/userSlice';
+import Sidebar from '../components/Sidebar.jsx';
+import ChatArea from '../components/ChatArea.jsx';
+import Artifact from '../components/Artifact.jsx';
 
 
 function Home() {
@@ -44,7 +47,10 @@ function Home() {
     <div className='flex justify-center bg-black items-center h-screen'>
       <div className='flex justify-center items-center h-screen'>
 
-        {!userData &&
+        <Sidebar/>
+        <ChatArea/>
+        <Artifact/>
+        {!userData && (
         <div>
           <div className='flex flex-col justify-center items-center text-white bg-blue-500 p-5'>
             <h2>
@@ -59,7 +65,7 @@ function Home() {
             <FcGoogle size={15} className='mr-2'/>
             Continue with Google
           </button>
-        </div>}
+        </div>)}
 
 
 

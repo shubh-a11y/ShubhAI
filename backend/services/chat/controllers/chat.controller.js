@@ -1,5 +1,5 @@
-import Conversation from "../models/conversation.model";
-import Message from "../models/message.model";
+import Conversation from "../models/conversation.model.js";
+import Message from "../models/message.model.js";
 
 
 export const createConversation = async (req, res) => {
@@ -42,7 +42,7 @@ export const getConversations = async (req, res) => {
           userId: userId
        }).sort({updatedAt:-1});
 
-       return res.status(200).json({conversation})
+       return res.status(200).json({conversations})
 
     } catch(err){
         return res.status(500).json({message:"getConversation error", err})
