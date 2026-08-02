@@ -3,6 +3,13 @@ import { getModel } from "../config/llmModels.js"
 export const router = async (state) => {
     const llm = await getModel("router")
 
+    if(state.agent && state.agent !== "auto")
+      {
+        return {...state,
+        agent: state.agent
+        }
+      }
+
     const prompt = `
 You are the Router Agent of a Multi-Agent AI Platform.
 
@@ -54,7 +61,7 @@ Available agents:
 - Presentation content
 - Speaker notes
 
-6. imageGen
+6. image
 - Image generation
 - Creating illustrations
 - Logos
@@ -75,7 +82,7 @@ search
 coding
 pdf
 ppt
-imageGen
+image
 
 Do not explain your decision.
 
@@ -91,7 +98,7 @@ User Request:
 ${state.prompt} `;
 
   const response = await llm.invoke(prompt);
-  console.log(response);
+  // console.log(response);
 
   return {
     ...state,

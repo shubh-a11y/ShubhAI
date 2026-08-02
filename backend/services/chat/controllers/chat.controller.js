@@ -60,11 +60,18 @@ export const updateConversation = async (req, res) => {
             return res.status(400).json({message:"Missing required fields"})
         }
 
-       const conversation = Conversation.findByIdAndUpdate(id, {title}, {new:true});
+       const conversation = await Conversation.findByIdAndUpdate(id, {title}, {new:true});
+
+       if (!conversation) {
+    return res.status(404).json({
+        message: "Conversation not found"
+    });
+}
 
        return res.status(200).json({conversation})
 
     } catch(err){
+        console.log("updateConversation error", err);
         return res.status(500).json({message:"updateConversation error", err})
     }
 }
@@ -101,7 +108,7 @@ export const getMessages = async (req,res) => {
 
         const messages = await Message.find({
             conversationId:req.params.conversationId
-        }).sort({createdAt:-1});
+        })
 
         return res.status(200).json({messages})
 

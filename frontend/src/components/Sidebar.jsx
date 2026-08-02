@@ -15,14 +15,13 @@ import {
 
 // API & Redux Imports (Kept identical to your structure)
 import { getConversations } from '../features/getConversations';
-import { createConversation } from '../features/createConversation';
 import logout from '../features/logout';
 import { 
-  addConversation, 
   setConversations, 
   setSelectedConversation 
 } from '../redux/conversationSlice';
 import { setUserdata } from '../redux/userSlice';
+import { setMessages } from '../redux/messageSlice';
 
 function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
@@ -50,14 +49,9 @@ function Sidebar() {
 
   // Handle new conversation creation
   const createConversationHandler = async () => {
-    try {
-      const { data } = await createConversation();
-      dispatch(addConversation(data.conversation));
-      dispatch(setSelectedConversation(data.conversation));
-      console.log("Conversation created:", data);
-    } catch (err) {
-      console.error("Failed to create conversation:", err);
-    }
+    
+      dispatch(setSelectedConversation(null)); // Reset selected conversation
+      dispatch(setMessages([]));
   };
 
   // Handle user logout
@@ -65,6 +59,7 @@ function Sidebar() {
     try {
       await logout();
       dispatch(setUserdata(null));
+      
     } catch (err) {
       console.error("Logout failed:", err);
     }

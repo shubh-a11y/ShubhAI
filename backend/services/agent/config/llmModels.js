@@ -45,7 +45,7 @@ export const getModel = async (agent) =>
     {
         return groq;
     }
-    else if(agent == "imageGen")
+    else if(agent == "image")
     {
         return gemini;
     }
