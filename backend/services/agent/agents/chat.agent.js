@@ -8,8 +8,18 @@ export const chatAgent = async (state) =>
 
     const history = await getMemory(state.conversationId);
 
+    const searchContext = state.searchResults ? 
+    `Web Search Results:\n${JSON.stringify(state.searchResults)} 
+    Answer the question based on the above search results. If the search results are not relevant, answer based on your own knowledge.` : "";
+
+
+
     const prompt = `
 You are the Chat Agent of a Multi-Agent AI Platform called Shubh AI.
+
+searchContext: ${searchContext}
+
+if searchContext exists, use it to answer the user's question, do not use internal tools. If not, answer based on your own knowledge.
 
 Your responsibility is to provide accurate, clear, helpful, and well-structured responses to the user's request.
 

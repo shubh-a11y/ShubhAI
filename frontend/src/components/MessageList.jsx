@@ -56,7 +56,7 @@ function MessageList() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
             >
-              <MessageBubble role={msg?.role} content={msg?.content} />
+              <MessageBubble role={msg?.role} content={msg?.content} images={msg?.images || []} />
             </motion.div>
           ))}
           {/* Invisible div to anchor the auto-scroll */}

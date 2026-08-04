@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { User, Sparkles, Copy, Check, TerminalSquare } from 'lucide-react';
+import { User, Sparkles, Copy, Check, TerminalSquare, ExternalLink } from 'lucide-react';
 
-function MessageBubble({ role, content }) {
+function MessageBubble({ role, content, images }) {
   const isUser = role === "user";
   const [copied, setCopied] = useState(false);
+  const [lightBox, setLightBox] = useState(null);
 
   // Copy whole message to clipboard
   const handleCopy = () => {
@@ -47,10 +48,24 @@ function MessageBubble({ role, content }) {
               : 'bg-transparent border border-[#d5bafb]/15 text-[#edede6]/90 rounded-2xl rounded-tl-sm shadow-[0_0_15px_rgba(213,186,251,0.03)]'
           }`}
         >
-          {/* 
-            FIX APPLIED HERE: 
-            Wrapped Markdown in a div for the flex styling to avoid v9 crash 
-          */}
+          
+          {images && images.length > 0 && (
+            <div className="flex gap-2 mb-3">
+              {images.map((image, index) => (
+                <img
+                  key={index}
+                  src={image}
+                  onClick={() => setLightBox(image)}
+                  loading="lazy"
+                  onError = {(e) => e.currentTarget.remove()}
+                  className="w-full max-h-[400px] object-contain rounded-lg mb-2"/>
+
+            ))}
+          </div>
+          )}
+
+            
+
           <div className="flex flex-col gap-3">
             <Markdown 
               remarkPlugins={[remarkGfm]}
@@ -68,10 +83,13 @@ function MessageBubble({ role, content }) {
                 ol: ({ node, ...props }) => <ol className="list-decimal list-outside ml-5 space-y-1 my-2 text-[#edede6]/80" {...props} />,
                 li: ({ node, ...props }) => <li className="pl-1" {...props} />,
                 
+                table: ({ node, ...props }) => <table className="border border-[#edede6]/15 rounded-lg overflow-hidden my-2" {...props} />,
+                th: ({ node, ...props }) => <th className="px-4 py-2 bg-[#edede6]/[0.05] text-left text-sm font-semibold text-[#edede6]/80" {...props} />,
+                td: ({ node, ...props }) => <td className="px-4 py-2 border-t border-[#edede6]/10 text-sm text-[#edede6]/80" {...props} />,
                 // Bold & Italic
                 strong: ({ node, ...props }) => <strong className="font-semibold text-[#edede6]" {...props} />,
                 em: ({ node, ...props }) => <em className="italic text-[#edede6]/70" {...props} />,
-                
+                a: ({ node, ...props }) => <a className="text-[#d5bafb] underline hover:text-[#beff8b] transition-colors" {...props}>{node.children[0].value} <ExternalLink size={12} /></a> ,
                 // Inline Code & Code Blocks
                 code: ({ node, inline, className, children, ...props }) => {
                   const match = /language-(\w+)/.exec(className || '');
@@ -118,9 +136,24 @@ function MessageBubble({ role, content }) {
             >
               {content}
             </Markdown>
+
+
           </div>
         </div>
       </div>
+
+      {/* Lightbox Modal */}
+      {lightBox && (
+        <div 
+          className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 cursor-pointer"
+          
+        >
+          <button onClick={() => setLightBox(null)} className="absolute top-4 right-4 text-[#edede6]/80 hover:text-[#beff8b] transition-colors">
+            X
+          </button>
+          <img src={lightBox} alt="Enlarged" className="max-h-[90%] max-w-[90%] object-contain rounded-lg" />
+        </div>
+      )}
     </div>
   );
 }

@@ -35,11 +35,16 @@ export const agent = async (req,res) =>
         {
             conversationId, 
             role:"assistant",
-            content:response
+            content:response,
+            images: result.images || []
+
 
         })
 
-        return res.status(200).json({response})
+        return res.status(200).json({
+            answer: result.aiResponse,
+            images: result.images || []
+        })
 
 
     }

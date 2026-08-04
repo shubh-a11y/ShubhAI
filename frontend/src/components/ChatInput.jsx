@@ -67,8 +67,9 @@ function ChatInput() {
       // Add assistant response to state
       dispatch(addMessage({
         role: "assistant",
-        content: data.response,
-        conversationId: conversation._id
+        content: data.answer,
+        conversationId: conversation._id,
+        images: data.images || []
       }));
     } catch (err) {
       console.error("Message error:", err);
