@@ -2,6 +2,7 @@
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { User, Sparkles, Copy, Check, TerminalSquare, ExternalLink } from 'lucide-react';
+import { useState } from 'react';
 
 function MessageBubble({ role, content, images }) {
   const isUser = role === "user";

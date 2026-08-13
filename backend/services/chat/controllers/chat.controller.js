@@ -82,7 +82,7 @@ export const updateConversation = async (req, res) => {
 export const saveMessage = async (req,res) => {
     try{
 
-        const {conversationId, role,content,images} = req.body;
+        const {conversationId, role,content,images,artifacts} = req.body;
 
         if(!conversationId || !role || !content)
         {
@@ -93,7 +93,8 @@ export const saveMessage = async (req,res) => {
             conversationId,
             role,
             images,
-            content
+            content,
+            artifacts
         })
 
         return res.status(200).json({message})
