@@ -5,7 +5,7 @@ import { Mic, Paperclip, Send, Sparkles, CornerDownLeft, Zap, MessageSquare, Cod
 
 // Feature & Redux Imports (Kept 100% identical to your structure)
 import sendMessage from '../features/sendMessage';
-import { addMessage } from '../redux/messageSlice';
+import { addMessage, setArtifacts } from '../redux/messageSlice';
 import { addConversation, setConvTitle, setSelectedConversation } from '../redux/conversationSlice';
 import { createConversation } from '../features/createConversation';
 import { updateConversation } from '../features/updateConversation';
@@ -62,14 +62,15 @@ function ChatInput() {
 
       // Call API backend
       const data = await sendMessage(payload);
+      dispatch(setArtifacts(data?.artifacts || []));
       console.log("Response data:", data);
 
       // Add assistant response to state
       dispatch(addMessage({
         role: "assistant",
-        content: data.answer,
+        content: data?.answer,
         conversationId: conversation._id,
-        images: data.images || []
+        images: data?.images || []
       }));
     } catch (err) {
       console.error("Message error:", err);

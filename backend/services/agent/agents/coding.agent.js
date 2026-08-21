@@ -171,6 +171,7 @@ Rules:
 - Never use placeholders like "// remaining code".
 - Include every required file.
 - File names must include folders when needed.
+- If images are required, use real unsplash images, do not use placeholders
 
 Example:
 

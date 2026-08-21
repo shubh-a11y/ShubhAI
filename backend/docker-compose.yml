@@ -1,6 +1,26 @@
+# backend\docker-compose.yml
 
 services:
   redis:
     image: redis
     ports:
       - 6379:6379
+
+
+
+# 🌟 MINIO S3-COMPATIBLE SERVICE
+  minio:
+    image: minio/minio
+    container_name: shubh_minio
+    ports:
+      - "9000:9000"     # API Endpoint (NodeJS connects here)
+      - "9001:9001"     # Web Console (You open this in Chrome)
+    environment:
+      MINIO_ROOT_USER: ${AWS_ACCESS_KEY_ID:-minioadmin}          # Uses .env or defaults to 'minioadmin'
+      MINIO_ROOT_PASSWORD: ${AWS_SECRET_ACCESS_KEY:-minioadmin}  # Uses .env or defaults to 'minioadmin'
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio_data:/data
+
+volumes:
+  minio_data:

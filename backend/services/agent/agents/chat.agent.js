@@ -4,7 +4,8 @@ import { getMemory } from "../config/memory.js";
 
 export const chatAgent = async (state) =>
 {
-    const llm = await getModel("chat");
+    try {
+        const llm = await getModel("chat");
 
     const history = await getMemory(state.conversationId);
 
@@ -91,6 +92,11 @@ assume the request has already been routed correctly by the Router Agent. Do not
     return {
         ...state,
         aiResponse: response.content
+    }
+
+    } catch(err) {
+        console.log("Chat agent error:", err);
+        return {...state, aiResponse: "Failed to generate response. Please try again."}
     }
 
 

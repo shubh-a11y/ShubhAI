@@ -5,28 +5,40 @@ import MessageList from "./MessageList";
 import Nav from "./Nav";
 import { useDispatch, useSelector } from "react-redux";
 import getMessages from "../features/getMessages";
-import { setMessages } from "../redux/messageSlice";
+import { setArtifacts, setMessages } from "../redux/messageSlice";
 
 function ChatArea() {
   const dispatch = useDispatch();
   const { selectedConversation } = useSelector((state) => state.conversation);
 
-  useEffect(() => {
-    const getMesg = async () => {
-      if (selectedConversation) {
-        try {
-          if(selectedConversation.title === "New Conversation") return;
-          const data = await getMessages(selectedConversation._id);
-          console.log("Fetched:", data.messages);
-          dispatch(setMessages(data.messages || []));
-        } catch (error) {
-          console.error("Failed to fetch messages:", error);
-        }
-      }
-    };
+useEffect(() => {
+  const getMesg = async () => {
+    if (selectedConversation) {
+      try {
+        if (selectedConversation.title === "New Conversation") return;
 
-    getMesg();
-  }, [selectedConversation?._id, dispatch]);
+        const data = await getMessages(selectedConversation._id);
+
+        console.log("Fetched:", data.messages);
+
+        const messages = data.messages || [];
+
+        dispatch(setMessages(messages));
+
+        const latestArtifactMessage = [...messages]
+          .reverse()
+          .find(message => message.artifacts?.length > 0);
+
+        dispatch(setArtifacts(latestArtifactMessage?.artifacts || []));
+
+      } catch (error) {
+        console.error("Failed to fetch messages:", error);
+      }
+    }
+  };
+
+  getMesg();
+}, [selectedConversation?._id, dispatch]);
 
   return (
     <motion.main 

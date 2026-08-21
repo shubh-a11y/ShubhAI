@@ -23,8 +23,9 @@ function Home() {
   {
     try{
       const data = await api.post("/api/auth/login",{token});
-      console.log(data);
+      // console.log(data);
       dispatch(setUserdata(data.data));
+      console.log("User data set in Redux:", data.data);
 
 
     }
@@ -38,9 +39,10 @@ function Home() {
   {
     const data = await signInWithPopup(auth, googleProvider)
     const token = await data.user.getIdToken();
-    console.log(token);
+    // console.log(token);
     await handleLogin(token);
-    console.log(data)
+    // console.log(data)
+    
   }
 
   return (
