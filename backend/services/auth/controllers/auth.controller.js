@@ -52,28 +52,36 @@ export  const login = async (req,res) =>
 }
 
 
-export const logout = async (req,res) =>
-{
-    try{
+export const logout = async (req, res) => {
+    try {
         console.log("🔥 Logout controller reached");
+
         const sessionId = req.cookies?.session;
-        await redis.del(`session-${sessionId}`);
+        const userId = req.user?.userId;
+
+        if (sessionId) {
+            await redis.del(`session-${sessionId}`);
+        }
+
+        if (userId) {
+            await redis.del(`user-session-${userId}`);
+        }
+
         res.clearCookie("session");
-        res.status(200).json({message:"Logout successful"})
 
+        return res.status(200).json({
+            message: "Logout successful"
+        });
+
+    } catch (err) {
+        console.error(err);
+
+        return res.status(500).json({
+            message: "logout error",
+            error: err.message
+        });
     }
-    catch (err) {
-    console.error(err);
-
-    return res.status(500).json({
-        message: "logout error",
-        error: err.message,
-        stack: err.stack
-    });
-
-    }
-}
-
+};
 export const updateUserPayment = async (req,res) =>
 {
     try{
@@ -92,23 +100,29 @@ export const updateUserPayment = async (req,res) =>
         user.planExpiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30); // 30 days from now
         await user.save();
 
+        console.log("Updating payment for user:", userId);
+
         const sessionId = await redis.get(`user-session-${userId}`);
 
-        if(!sessionId)
-        {
-            return res.status(401).json({message:"Unauthorized"});
-        }
+        console.log("Session ID:", sessionId);
 
-        await redis.set(`session-${sessionId}`, JSON.stringify({
-            userId: user._id,
-            firebaseUid: user.firebaseUid,
-            email: user.email,
-            avatar: user.avatar,
-            plan: user.plan,
-            credits: user.credits,
-            totalCredits: user.totalCredits,
-            planExpiresAt: user.planExpiresAt
-        }), "EX", 60 * 60 * 24 * 7); // 7 days
+         if (sessionId) {
+            await redis.set(
+                `session-${sessionId}`,
+                JSON.stringify({
+                    userId: user._id,
+                    firebaseUid: user.firebaseUid,
+                    email: user.email,
+                    avatar: user.avatar,
+                    plan: user.plan,
+                    credits: user.credits,
+                    totalCredits: user.totalCredits,
+                    planExpiresAt: user.planExpiresAt
+                }),
+                "EX",
+                60 * 60 * 24 * 7
+            );
+        }
 
         res.status(200).json({ message: "Payment details updated successfully", user });
     }
