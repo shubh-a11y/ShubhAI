@@ -20,8 +20,9 @@ import {
   setConversations, 
   setSelectedConversation 
 } from '../redux/conversationSlice';
-import { setUserdata } from '../redux/userSlice';
-import { setMessages } from '../redux/messageSlice';
+import { setUserdata } from '../redux/userSlice.js';
+import { setMessages } from '../redux/messageSlice.js';
+import BillingDrawer from './BillingDrawer.jsx';
 
 function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
@@ -30,6 +31,7 @@ function Sidebar() {
   const dispatch = useDispatch();
   const { conversations, selectedConversation } = useSelector((state) => state.conversation);
   const { userData } = useSelector((state) => state.user);
+  const [showbilling, setShowBilling] = useState(false);
 
   // Fetch conversations on load or when userData changes
   useEffect(() => {
@@ -211,6 +213,7 @@ function Sidebar() {
                 whileTap={{ scale: 0.9 }}
                 className="p-2 rounded-lg hover:bg-[#edede6]/[0.05] text-[#edede6]/60 hover:text-[#beff8b] transition-colors"
                 title="Credits & Billing"
+                onClick={() => setShowBilling(true)}
               >
                 <Coins size={16} />
               </motion.button>
@@ -241,8 +244,14 @@ function Sidebar() {
           </motion.button>
         )}
       </div>
+
+        <BillingDrawer 
+        open={showbilling}
+        onClose={() => setShowBilling(false)}
+        />
     </motion.aside>
   );
 }
+
 
 export default Sidebar;

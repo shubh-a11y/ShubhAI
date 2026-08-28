@@ -23,11 +23,17 @@ export  const login = async (req,res) =>
         }
         const sessionId = crypto.randomUUID();
 
+        await redis.set(`user-session-${user._id}`,sessionId ,"EX",60*60*24*7) // 7 days
+
         await redis.set(`session-${sessionId}`,JSON.stringify({
             userId:user._id,
             firebaseUid:user.firebaseUid,
             email:user.email,
-            avatar:user.avatar
+            avatar:user.avatar,
+            plan: user.plan,
+            credits: user.credits,
+            totalCredits: user.totalCredits,
+            planExpiresAt: user.planExpiresAt
         }),"EX",60*60*24*7) // 7 days
 
         res.cookie("session",sessionId,
@@ -65,5 +71,49 @@ export const logout = async (req,res) =>
         stack: err.stack
     });
 
+    }
+}
+
+export const updateUserPayment = async (req,res) =>
+{
+    try{
+        const {userId, plan, credits} = req.body;
+
+        const user = await User.findById(userId)
+
+        if(!user)
+        {
+            return res.status(404).json({message:"User not found"});
+        }
+
+        user.plan = plan;
+        user.credits += credits;
+        user.totalCredits += credits;
+        user.planExpiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30); // 30 days from now
+        await user.save();
+
+        const sessionId = await redis.get(`user-session-${userId}`);
+
+        if(!sessionId)
+        {
+            return res.status(401).json({message:"Unauthorized"});
+        }
+
+        await redis.set(`session-${sessionId}`, JSON.stringify({
+            userId: user._id,
+            firebaseUid: user.firebaseUid,
+            email: user.email,
+            avatar: user.avatar,
+            plan: user.plan,
+            credits: user.credits,
+            totalCredits: user.totalCredits,
+            planExpiresAt: user.planExpiresAt
+        }), "EX", 60 * 60 * 24 * 7); // 7 days
+
+        res.status(200).json({ message: "Payment details updated successfully", user });
+    }
+    catch(err)
+    {
+        return res.status(500).json({message:"Update User Payment error", err})
     }
 }
