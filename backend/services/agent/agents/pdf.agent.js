@@ -1,4 +1,5 @@
 import { getModel } from "../config/llmModels.js";
+import { deductCredits } from "../utils/deductCredits.js";
 import { generatePdf } from "../utils/generatePdf.js";
 import { getFromS3 } from "../utils/getFromS3.js";
 import { uploadToS3 } from "../utils/uploadToS3.js";
@@ -7,6 +8,8 @@ export const pdfAgent = async (state) => {
 
     try {
         const llm = await getModel("pdf");
+
+        await deductCredits(state.userId, "pdf");
 
         const prompt = `
 You are an expert PDF content architect and technical document writer.

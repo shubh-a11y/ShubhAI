@@ -1,8 +1,12 @@
 import { getModel } from "../config/llmModels.js";
+import { deductCredits } from "../utils/deductCredits.js";
 
 export const codingAgent = async (state) => {
   const intentLlm = await getModel("intent");
   const llm = await getModel("coding");
+
+  await deductCredits(state.userId, "coding");
+
   const intentRes = await intentLlm.invoke(`
 You are an expert intent classifier for an AI Coding Assistant.
 

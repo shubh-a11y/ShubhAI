@@ -21,12 +21,15 @@ export  const login = async (req,res) =>
                 avatar:decoded.picture
             })
         }
+
+        console.log(user)
         const sessionId = crypto.randomUUID();
 
         await redis.set(`user-session-${user._id}`,sessionId ,"EX",60*60*24*7) // 7 days
 
         await redis.set(`session-${sessionId}`,JSON.stringify({
             userId:user._id,
+            name:user.name,
             firebaseUid:user.firebaseUid,
             email:user.email,
             avatar:user.avatar,
@@ -111,6 +114,7 @@ export const updateUserPayment = async (req,res) =>
                 `session-${sessionId}`,
                 JSON.stringify({
                     userId: user._id,
+                    name: user.name,
                     firebaseUid: user.firebaseUid,
                     email: user.email,
                     avatar: user.avatar,
@@ -129,5 +133,69 @@ export const updateUserPayment = async (req,res) =>
     catch(err)
     {
         return res.status(500).json({message:"Update User Payment error", err})
+    }
+}
+
+
+export const deductCredits = async (req,res) =>
+{
+    try
+    {
+        const {userId, agent} = req.body;
+
+        const COST = {
+            chat: 10,
+            search: 20,
+            coding: 30,
+            ppt: 50,
+            pdf: 50,
+            image: 50
+        }
+
+        const user = await User.findById(userId);
+
+        if(!user)
+        {
+            return res.status(404).json({message:"User not found"});
+        }
+
+        const requiredCredits = COST[agent];
+
+        if(user.credits < requiredCredits)
+        {
+            return res.status(400).json({message:"Insufficient credits"});
+        }
+
+        user.credits -= requiredCredits;
+        await user.save();
+
+        const sessionId = await redis.get(`user-session-${userId}`);
+
+        if (sessionId) {
+            await redis.set(
+                `session-${sessionId}`,
+                JSON.stringify({
+                    userId: user._id,
+                    name: user.name,
+                    firebaseUid: user.firebaseUid,
+                    email: user.email,
+                    avatar: user.avatar,
+                    plan: user.plan,
+                    credits: user.credits,
+                    totalCredits: user.totalCredits,
+                    planExpiresAt: user.planExpiresAt
+                }),
+                "EX",
+                60 * 60 * 24 * 7
+            );
+        }
+
+        return res.status(200).json({message:"Credits deducted successfully",credits:user.credits});
+            
+        
+    }
+    catch(err)
+    {
+        return res.status(500).json({message:"Deduct Credits error", err})
     }
 }

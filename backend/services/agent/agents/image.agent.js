@@ -4,11 +4,14 @@ import axios from "axios";
 import { getModel } from "../config/llmModels.js"
 import { uploadToS3 } from "../utils/uploadToS3.js";
 import { getFromS3 } from "../utils/getFromS3.js";
+import { deductCredits } from "../utils/deductCredits.js";
 
 export const imageAgent = async (state) => {
 
     try{
         const llm = await getModel("image");
+        await deductCredits(state.userId, "image");
+        
     const res = await llm.invoke(`
 You are an expert AI image prompt engineer.
 

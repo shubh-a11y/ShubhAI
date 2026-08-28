@@ -200,7 +200,7 @@ function Sidebar() {
                     {userData.name || "User"}
                   </p>
                   <span className="text-[10px] font-semibold text-[#d5bafb] bg-[#d5bafb]/10 border border-[#d5bafb]/20 px-1.5 py-0.5 rounded-md w-fit">
-                    Free Plan
+                    {userData.plan || "Free Plan"}
                   </span>
                 </div>
               )}
