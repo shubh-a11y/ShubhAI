@@ -3,6 +3,22 @@ import { getModel } from "../config/llmModels.js"
 export const router = async (state) => {
     const llm = await getModel("router")
 
+    if(state?.file && state.file.mimetype === "application/pdf")
+    {
+      return {
+        ...state,
+        agent: "pdfRag"
+      }
+    }
+
+    if(state?.file && state.file?.mimetype?.startsWith("image/"))
+    {
+      return {
+        ...state,
+        agent: "imageAnalyzer"
+      }
+    }
+
     if(state.agent && state.agent !== "auto")
       {
         return {...state,

@@ -60,6 +60,10 @@ export const getModel = async (agent) =>
     {
         return gemini;
     }
+    else if(agent == "imageAnalyzer")
+    {
+        return gemini;
+    }
     else
     {
         return groq;

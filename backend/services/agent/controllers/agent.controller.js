@@ -7,7 +7,7 @@ export const agent = async (req,res) =>
 {
     try{
         const {prompt, conversationId,agent} = req.body;
-
+        const file = req.file;
         const userId = req.headers["x-user-id"];
         
         // await redis.del(`messages-${conversationId}`)
@@ -25,7 +25,8 @@ export const agent = async (req,res) =>
             prompt,
             conversationId,
             agent,
-            userId
+            userId,
+            file
         })
 
         const response = result.aiResponse;
