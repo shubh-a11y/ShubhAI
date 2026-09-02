@@ -1,6 +1,7 @@
 import { getModel } from "../config/llmModels.js"
-import fs from "fs"
+import fs from "fs/promises"
 import { deductCredits } from "../utils/deductCredits.js";
+import { HumanMessage, SystemMessage } from "@langchain/core/messages";
 
 
 export const imageAnalyzer = async (state) =>
@@ -54,6 +55,7 @@ Rules:
     }   
     catch(err)
     {
+        console.error("Image Analyzer error:", err);
         return {
             ...state,
             aiResponse: "Failed to analyze the image. Please try again."
@@ -63,7 +65,7 @@ Rules:
     {
         // Clean up the uploaded file
         if (state.file && state.file.path) {
-            fs.unlink(state.file.path, (err) => {
+            await fs.unlink(state.file.path, (err) => {
                 if (err) {
                     console.error("Error deleting uploaded file:", err);
                 }

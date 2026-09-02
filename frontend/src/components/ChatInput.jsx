@@ -9,6 +9,7 @@ import { addMessage, setArtifacts } from '../redux/messageSlice';
 import { addConversation, setConvTitle, setSelectedConversation } from '../redux/conversationSlice';
 import { createConversation } from '../features/createConversation';
 import { updateConversation } from '../features/updateConversation';
+import { useRef } from 'react';
 
 function ChatInput() {
   const dispatch = useDispatch();
@@ -16,7 +17,8 @@ function ChatInput() {
   const [isLoading, setIsLoading] = useState(false);
   const { selectedConversation } = useSelector((state) => state.conversation);
   const [selectedAgent, setSelectedAgent] = useState("Auto");
-
+  const [selectedFile, setSelectedFile] = useState(null);
+  const fileRef = useRef(null);
 
 
   const handleSendMessage = async () => {
@@ -47,11 +49,19 @@ function ChatInput() {
     setIsLoading(true);
 
     try {
-      const payload = {
-        conversationId: conversation._id,
-        prompt: userPrompt,
-        agent: selectedAgent.toLowerCase()
-      };
+      // const payload = {
+      //   conversationId: conversation._id,
+      //   prompt: userPrompt,
+      //   agent: selectedAgent.toLowerCase()
+      // };
+
+      const formData = new FormData();
+      formData.append("conversationId", conversation._id);
+      formData.append("prompt", userPrompt);
+      formData.append("agent", selectedAgent.toLowerCase());
+      if(selectedFile) {
+        formData.append("file", selectedFile);
+      }
 
       // Optimistically add user message to state
       dispatch(addMessage({
@@ -61,7 +71,7 @@ function ChatInput() {
       }));
 
       // Call API backend
-      const data = await sendMessage(payload);
+      const data = await sendMessage(formData);
       dispatch(setArtifacts(data?.artifacts || []));
       console.log("Response data:", data);
 
@@ -78,6 +88,15 @@ function ChatInput() {
       setIsLoading(false);
     }
   };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if(file)
+    {
+      setSelectedFile(file);
+      console.log("Selected file:", file);
+    }
+  }
 
   // Keyboard shortcut: Enter sends message, Shift+Enter adds newline
   const handleKeyDown = (e) => {
@@ -174,12 +193,18 @@ function ChatInput() {
 
           {/* Bottom Action Bar inside Input Box */}
           <div className="flex items-center justify-between pt-2 border-t border-[#edede6]/10 mt-1">
+
+            {/* Hidden File Input for PDF/Image Upload */}
+          <input type= "file" accept='.pdf,image/*' hidden ref={fileRef} 
+          onChange = {handleFileChange}/>
+
             {/* Attachment & Voice Tools */}
             <div className="flex items-center gap-1 sm:gap-2">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 type="button"
+                onClick = {() => fileRef.current.click()}
                 className="p-2 rounded-xl text-[#edede6]/50 hover:text-[#edede6] hover:bg-[#edede6]/[0.08] transition-colors"
                 title="Attach Document for RAG Vector Search"
               >
