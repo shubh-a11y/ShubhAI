@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { 
   Crown, 
   X, 
@@ -13,9 +13,11 @@ import {
 } from 'lucide-react';
 import { createOrder } from '../features/createOrder';
 import { verifyPayment } from '../features/verifyPayment';
+import { setUserdata } from '../redux/userSlice';
 
 function BillingDrawer({ open, onClose }) {
   const { userData } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   // Safely calculate credits & percentage
   const currentPlan = userData?.plan || "free";
@@ -37,6 +39,7 @@ function BillingDrawer({ open, onClose }) {
         handler: async (response) => {
           try {
             const res = await verifyPayment(response);
+            dispatch(setUserdata(res.user)); // Update user data in Redux store
             console.log("Payment verified:", res);
           } catch (err) {
             console.error("Error verifying payment:", err);
