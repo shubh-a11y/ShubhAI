@@ -31,24 +31,25 @@ Build • Analyze • Search • Code • Generate • Retrieve • Automate
 <table>
 <tr>
 <td width="50%">
-<img src="YOUR_SCREENSHOT_1_URL" alt="ShubhAI Chat Interface" />
+<img src="https://github.com/user-attachments/assets/96d1df6d-dbc9-44e2-b093-7da61b1e9ff5" alt="ShubhAI Chat Interface" />
 <p align="center"><b>AI Chat Interface</b></p>
 </td>
 
 <td width="50%">
-<img src="YOUR_SCREENSHOT_2_URL" alt="ShubhAI Multi Agent Interface" />
-<p align="center"><b>Multi-Agent Interface</b></p>
+<img width="1902" height="1062" alt="image" src="https://github.com/user-attachments/assets/25a685f5-708f-4171-a8c9-e857914af246" />
+<p align="center"><b>Web Search</b></p>
 </td>
 </tr>
 
 <tr>
 <td width="50%">
-<img src="YOUR_SCREENSHOT_3_URL" alt="ShubhAI PDF and Image Analysis" />
-<p align="center"><b>PDF / Image Analysis</b></p>
+<img width="1807" height="886" alt="image" src="https://github.com/user-attachments/assets/59e736e9-e5d3-4b47-8c4b-d5473251cd2a" />
+
+<p align="center"><b>Image Generation</b></p>
 </td>
 
 <td width="50%">
-<img src="YOUR_SCREENSHOT_4_URL" alt="ShubhAI Billing Interface" />
+<img width="1552" height="890" alt="image" src="https://github.com/user-attachments/assets/35761e84-7ebe-446b-b677-0166a2eca8e9" />
 <p align="center"><b>Credits & Billing</b></p>
 </td>
 </tr>
