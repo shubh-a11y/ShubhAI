@@ -26,8 +26,6 @@ Build • Analyze • Search • Code • Generate • Retrieve • Automate
 
 ## 📸 Project Preview
 
-> Replace the four placeholders below with screenshots of your actual application.
-
 <table>
 <tr>
 <td width="50%">
