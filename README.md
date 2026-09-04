@@ -26,32 +26,72 @@ Build • Analyze • Search • Code • Generate • Retrieve • Automate
 
 ## 📸 Project Preview
 
+<div align="center">
+
+<!-- Main product screenshot -->
+
+<img 
+width="100%" 
+src="https://github.com/user-attachments/assets/96d1df6d-dbc9-44e2-b093-7da61b1e9ff5" 
+alt="ShubhAI Main Chat Interface" 
+/>
+
+<br/>
+
+### 🧠 ShubhAI — AI Workspace
+
+</div>
+
+<br/>
+
 <table>
 <tr>
-<td width="50%">
-<img src="https://github.com/user-attachments/assets/96d1df6d-dbc9-44e2-b093-7da61b1e9ff5" alt="ShubhAI Chat Interface" />
-<p align="center"><b>AI Chat Interface</b></p>
+
+<td width="33.33%" align="center">
+
+<img 
+width="100%" 
+src="https://github.com/user-attachments/assets/25a685f5-708f-4171-a8c9-e857914af246" 
+alt="ShubhAI Web Search"
+/>
+
+<br/>
+
+<b>🔎 Web Search</b>
+
 </td>
 
-<td width="50%">
-<img width="1902" height="1062" alt="image" src="https://github.com/user-attachments/assets/25a685f5-708f-4171-a8c9-e857914af246" />
-<p align="center"><b>Web Search</b></p>
-</td>
-</tr>
+<td width="33.33%" align="center">
 
-<tr>
-<td width="50%">
-<img width="1807" height="886" alt="image" src="https://github.com/user-attachments/assets/59e736e9-e5d3-4b47-8c4b-d5473251cd2a" />
+<img 
+width="100%" 
+src="https://github.com/user-attachments/assets/59e736e9-e5d3-4b47-8c4b-d5473251cd2a" 
+alt="ShubhAI Image Generation"
+/>
 
-<p align="center"><b>Image Generation</b></p>
+<br/>
+
+<b>🎨 Image Generation</b>
+
 </td>
 
-<td width="50%">
-<img width="1552" height="890" alt="image" src="https://github.com/user-attachments/assets/35761e84-7ebe-446b-b677-0166a2eca8e9" />
-<p align="center"><b>Credits & Billing</b></p>
+<td width="33.33%" align="center">
+
+<img 
+width="100%" 
+src="https://github.com/user-attachments/assets/35761e84-7ebe-446b-b677-0166a2eca8e9" 
+alt="ShubhAI Credits and Billing"
+/>
+
+<br/>
+
+<b>💳 Credits & Billing</b>
+
 </td>
+
 </tr>
 </table>
+
 
 ---
 
